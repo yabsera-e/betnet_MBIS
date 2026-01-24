@@ -54,7 +54,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-APP_NAME = 'የሚከራይ ቤት አለ'
+APP_NAME = 'ቤትNet'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
