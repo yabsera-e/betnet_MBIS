@@ -1,0 +1,116 @@
+{%extends "newbase.html"%}
+{%block pagetitle %} | My Listings {%endblock pagetitle %}
+{% block content%}
+
+<div class="px-4 sm:px-6 lg:px-14">
+
+  <div class=" mt-4 flex gap-2 items-center ">
+    <i class="fa fa-home" aria-hidden="true"></i>
+    <h2 class=" font-semibold text-2xl">My Listings</h2>
+  </div>
+  {% if messages %}
+  <div class=" mt-32 text-center w-full">
+    {% for message in messages %}
+    <span class=" text-4xl text-gray-700 font-weight-bolder" >{{ message }} 👆🏻</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+    <div class=" mt-10 sm:grid lg:grid-cols-3 md:grid-cols-3 flex flex-col gap-8 mx-auto">
+        {% for listing in listings%}
+            {% include './listing_card.html' with listing=listing %}
+        {% endfor %}
+    </div>
+
+      <!-- Pagination -->
+  {%if listings|length > 1 %}
+  <div class="mt-10 px-4 sm:px-6 lg:px-14 flex justify-center ">
+    <div class=" rounded-full py-2 px-2 shadow-sm inline-flex w-auto max-w-full">
+     <nav aria-label="Page navigation">
+       <ul class="pagination justify-center items-center flex gap-2"> 
+         {% if page_obj.has_previous %}
+         {% comment %} <li class="page-item"><a class="page-link " href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">First</a></li> {% endcomment %}
+         <li class="page-item border w-10 h-10 rounded-full shadow-sm flex items-center justify-center"><a class="page-link text-xl" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+         {% endif %}  
+  
+         <!-- <div class=" flex gap-5"> -->
+          {% for i in page_obj.paginator.page_range %}
+         {% if i >= page_obj.number|add:'-5' and i <= page_obj.number|add:'5' %}
+         
+         <a class="page-link " href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"><li class=" p-2 rounded-full shadow-sm w-10 h-10 flex items-center justify-center  {% if i == page_obj.number %} bg-secondary shadow-sm text-white {%else%} border  {% endif %}">{{i}}</li></a>
+         {% endif %}
+         {% endfor %} 
+         <!-- </div> -->
+         
+         {% if page_obj.has_next %}
+         <li class="page-item border w-10 h-10 rounded-full shadow-sm flex items-center justify-center"><a  class="page-link text-xl" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+         {% comment %} <li class="page-item"><a class="page-link " href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Last</a></li> {% endcomment %}
+         {% endif %} 
+       </ul>
+     </nav>
+    </div>
+   </div>
+  {%endif%}
+  
+</div>
+ 
+<script>
+    const leftButtons = document.querySelectorAll('.left-btn');
+    const rightButtons = document.querySelectorAll('.right-btn');
+    const imageScrollContainers = document.querySelectorAll('.image-scroll');
+    
+    leftButtons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        imageScrollContainers[index].scrollBy({
+          left : -286, 
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    rightButtons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        imageScrollContainers[index].scrollBy({
+          left : 286, 
+          behavior: 'smooth'
+        });
+      });
+    });
+    </script>
+    
+    <script>
+      const carousel = document.querySelector('.carousel');
+      const images = carousel.querySelectorAll('img');
+      const dots = document.querySelectorAll('.carousel-dot');
+      let currentIndex = 0;
+
+      function scrollCarousel() {
+      carousel.scrollTo({
+        left : currentIndex * carousel.offsetWidth,
+        behavior: 'smooth'
+      });
+      updateDots();
+    
+      currentIndex = (currentIndex + 1) % images.length;
+    }
+
+    
+    function updateDots() {
+      dots.forEach((dot, index) => {
+    if (index === currentIndex) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
+}
+
+setInterval(scrollCarousel, 3000);
+  </script>
+
+  <style>
+    .carousel-dot.active {
+      background-color: #48d3e5;
+    }
+  </style>
+
+{% endblock content%}

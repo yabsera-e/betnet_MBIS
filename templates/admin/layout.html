@@ -1,0 +1,162 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Admin Dashboard{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+
+        {% tailwind_css %}
+        <!-- Include Tailwind CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    </head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header flex flex-col items-center">
+                <img class="w-[4rem] object-cover flex-none" src="{% static 'logo.png' %}" alt="Listing Media">
+                <span class=" text-lime-500 font-semibold">Administration</span>
+            </div>
+            <div class="sidebar-menu">
+
+                <div class="menu-item {% url 'admin-dashboard' as dashboard_url %}{% if request.path == dashboard_url %}active{% endif %}">
+                    <a href="{{dashboard_url}}">
+                        <i class="fas fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <div class="menu-item {% url 'admin-listings' as listings_url %}{% if request.path == listings_url %}active{% endif %}">
+                    <a href="{{ listings_url }}">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Listings</span>
+                    </a>
+                </div>
+
+                <div class="menu-item {% url 'admin-users' as users_url %}{% if request.path == users_url %}active{% endif %}">
+                    <a href="{{ users_url }}">
+                        <i class="fas fa-users"></i>
+                        <span>User Management</span>
+                    </a>
+                </div>
+
+                <div class="menu-item {% url 'admin-ads' as ads_url %}{% if request.path == ads_url %}active{% endif %}">
+                    <a href="{{ ads_url }}">
+                        <i class="fa fa-window-restore" aria-hidden="true"></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Ads</span>
+                    </a>
+                </div>
+
+                <div class="menu-item {% url 'admin-cities' as cities_url %}{% if request.path == cities_url %}active{% endif %}">
+                    <a href="{{ cities_url }}">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Cities</span>
+                    </a>
+                </div>
+
+                <div class="menu-item {% url 'admin-subcities' as subcities_url %}{% if request.path == subcities_url %}active{% endif %}">
+                    <a href="{{ subcities_url }}">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">SubCities</span>
+                    </a>
+                </div>
+
+                <div class="menu-item {% url 'admin-comments' as comments_url %}{% if request.path == comments_url %}active{% endif %}">
+                    <a href="{{ comments_url }}">
+                        <i class="fa fa-comment" aria-hidden="true"></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">User Comments</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="user-actions">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">AD</div>
+                        <!-- <span>{{user.first_name}} {{user.last_name}}</span> -->
+                        <div class=" ">
+                            <div class="relative inline-block text-left">
+                                <div>
+                                  <button id="menu-button-mob" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-lime-500"  aria-expanded="false" aria-haspopup="true">
+                                    {{user.first_name}}
+                                    <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                  </button>
+                                </div>
+                                <div class="origin-top-right-mob absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" style="display: none;">
+                                  <div class="py-1" role="none">
+                                    <a href="{%url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-2">Sign Out</a>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <i class="fas fa-chevron-down" style="margin-left: 10px;"></i> -->
+                    </div>
+                </div>
+            </div>
+            {% block content %}
+            {% endblock %}
+            
+        </div>
+    </div>
+
+    <script>
+        // Simple interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu item click handler
+            const menuButtonmob = document.getElementById('menu-button-mob');
+            const menuOptionsmob = document.querySelector('.origin-top-right-mob');
+
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            // menuButtonmob.addEventListener('click', () => {
+            //     menuOptionsmob.style.display = menuOptionsmob.style.display === 'none' ? 'block' : 'none';
+            //     menuButtonmob.setAttribute('aria-expanded', menuOptionsmob.style.display === 'none' ? 'false' : 'true');
+            // });
+        //   document.addEventListener('click', (event) => {
+        //         if (!menuButtonmob.contains(event.target) && !menuOptionsmob.contains(event.target)) {
+        //           menuOptionsmob.style.display = 'none';
+        //           menuButtonmob.setAttribute('aria-expanded', 'false');
+        //         }
+        //     });
+
+            // Notification click handler
+            const notification = document.querySelector('.notification');
+            notification.addEventListener('click', function() {
+                alert('You have 3 new notifications');
+            });
+
+            // User profile dropdown (simplified)
+            const userProfile = document.querySelector('.user-profile');
+            userProfile.addEventListener('click', function() {
+                menuOptionsmob.style.display = menuOptionsmob.style.display === 'none' ? 'block' : 'none';
+
+            });
+        });
+</script>

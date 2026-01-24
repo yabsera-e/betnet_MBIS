@@ -1,0 +1,237 @@
+{% extends "newbase.html"%}
+{% block title %} home {% endblock title %}
+{% block content%}
+
+<div class="mx-auto px-4 sm:px-6 lg:px-20 mt-3">
+<h2 class="text-2xl text-lime-950 font-bold text-center mt-5"> <i class="fa fa-edit text-teal-400" ></i> Edit Listing</h2>
+<form method='POST' enctype="multipart/form-data" class=" flex flex-col sm:flex-row justify-between mx-auto mt-5 gap-5">
+    {% csrf_token %}
+    <div class=" flex flex-col w-full">
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.title.label_tag }}</div>
+            <div>{{ form.title }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.price.label_tag }}</div>
+            <div>{{ form.price }}</div>
+        </div>
+        {% comment %} <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.rooms.label_tag }}</div>
+            <div>{{ form.rooms }}</div>
+        </div> {% endcomment %}
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.bedrooms.label_tag }}</div>
+            <div>{{ form.bedrooms }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.bathrooms.label_tag }}</div>
+            <div>{{ form.bathrooms }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.square_metre.label_tag }}</div>
+            <div>{{ form.square_metre }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.amenities.label_tag }}</div>
+            <div class="flex flex-wrap gap-4">
+              {% for checkbox in form.amenities %}
+              <label class="custom-checkbox hover:bg-lime-100 flex items-center px-2 rounded duration-300 cursor-pointer">
+                  {{ checkbox.tag }}
+                  <span class="checkmark"></span>
+                  {{ checkbox.choice_label }}
+              </label>
+              {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col w-full">
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.city.label_tag }}</div>
+            <div class="">{{ form.city }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.sub_city.label_tag }}</div>
+            <div>{{ form.sub_city }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.area.label_tag }}</div>
+            <div>{{ form.area }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.phone_number1.label_tag }}</div>
+            <div>{{ form.phone_number1 }}</div>
+        </div>
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.phone_number2.label_tag }}</div>
+            <div>{{ form.phone_number2 }}</div>
+        </div>
+    </div>
+    <div class="flex flex-col w-full">
+        <div class="mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">{{ form.desc.label_tag }}</div>
+            <div>{{ form.desc }}</div>
+        </div>
+        <div class="mb-4">
+            <label class="block font-medium text-gray-700 mb-2">Existing Images: Select to remove</label>
+            <div class="flex flex-wrap gap-4">
+              {% for media in medias %}
+                <div class="relative border rounded p-2">
+                  <img src="{{ media.file_path }}" class="w-32 h-32 object-cover rounded" />
+                  <label class="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded cursor-pointer">
+                    <input type="checkbox" name="delete_media" value="{{ media.id }}" class=" " />
+                    {% comment %} <span class="text-black">✕</span> {% endcomment %}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class=" flex flex-col w-full gap-2 mb-4">
+            <div class="block mb-2 text-sm font-medium text-gray-900 ">Choose New Images:</div>
+            <div class="flex flex-wrap justify-center sm:justify-start gap-4" id="image-upload-wrapper">
+              <!-- Upload boxes and previews -->
+            </div>
+          </div>
+          <!-- Your upload box setup (use the JS from earlier) -->
+          
+        {% comment %} <input type="file" name="media" id="">
+        <input type="file" name="media" id="">
+        <input type="file" name="media" id=""> {% endcomment %}
+        <button class="text-white mt-4 bg-secondary hover:bg-lime-600 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-lime-950 dark:hover:bg-lime-700 dark:focus:ring-lime-800">UPDATE</button>
+    </div>
+</form>
+</div>
+
+
+<style>
+    .upload-box {
+      width: 120px;
+      height: 120px;
+      border: 2px dashed #a3e635; /* lime-400 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000; /* blue-700 */
+      cursor: pointer;
+      border-radius: 0.5rem;
+      position: relative;
+      background-color: #f7fee7; /* lime-100 */
+      font-weight: 500;
+      text-align: center;
+      padding: 10px;
+    }
+  
+    .upload-box:hover {
+      background-color: #ecfccb; /* lime-200 */
+    }
+  
+    .image-preview {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+  
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+    .remove-button {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+      text-align: center;
+    }
+  
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+  
+  <script>
+    const maxImages = 3;
+    const uploadWrapper = document.getElementById("image-upload-wrapper");
+  
+    function createUploadBox() {
+      const uploadBox = document.createElement("div");
+      uploadBox.className = "upload-box";
+      uploadBox.innerHTML = `
+        <div>
+          <div class="text-2xl"><i class="fa fa-plus text-lime-600"></i></div>
+          <div class="text-sm mt-1">Upload Image</div>
+        </div>
+      `;
+  
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.name = "media";
+      fileInput.accept = "image/*";
+  
+      fileInput.addEventListener("change", function () {
+        if (fileInput.files && fileInput.files[0]) {
+          const reader = new FileReader();
+  
+          reader.onload = function (e) {
+            const containerDiv = document.createElement("div");
+            containerDiv.className = "image-container";
+  
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            containerDiv.className = 'image-preview'
+  
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-button";
+            removeBtn.innerText = "×";
+  
+            removeBtn.onclick = function () {
+              containerDiv.remove();
+              fileInput.remove();
+              checkAndAddUploadBox();
+            };
+  
+            containerDiv.appendChild(img);
+            containerDiv.appendChild(removeBtn);
+            containerDiv.appendChild(fileInput);
+  
+            uploadWrapper.insertBefore(containerDiv, uploadBox);
+            uploadBox.remove();
+  
+            checkAndAddUploadBox();
+          };
+  
+          reader.readAsDataURL(fileInput.files[0]);
+        }
+      });
+  
+      uploadBox.addEventListener("click", () => {
+        fileInput.click();
+      });
+  
+      uploadWrapper.appendChild(uploadBox);
+      uploadBox.appendChild(fileInput);
+    }
+  
+    function checkAndAddUploadBox() {
+      const currentInputs = uploadWrapper.querySelectorAll('input[type="file"]').length;
+      const hasUploadBox = !!uploadWrapper.querySelector(".upload-box");
+  
+      if (currentInputs < maxImages && !hasUploadBox) {
+        createUploadBox();
+      }
+    }
+  
+    // Init
+    checkAndAddUploadBox();
+  </script>
+{% endblock content%}

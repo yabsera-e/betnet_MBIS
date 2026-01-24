@@ -1,0 +1,378 @@
+{% extends "../layout.html" %}
+{% comment %} {% extends "../base-admin.html" %} {% endcomment %}
+
+ {% block page_title %}/ Home {% endblock page_title %}
+
+ {% block overlay %}
+  <div class=" min-h-96 w-full bg-cyan-200 absolute -z-10 top-0 "></div>
+{% endblock overlay %}
+
+{% block content %}
+
+<div class=" z-50">
+   <div class=" border-gray-200 rounded-lg dark:border-gray-700">
+      <div class="stats-container">
+         <div class="stat-card">
+             <div class="stat-card-header">
+                 <div>
+                     <div class="stat-value">
+                        {{total_users}}
+                     </div>
+                     <div class="stat-label">Total Users</div>
+                 </div>
+                 <div class="stat-icon users">
+                     <i class="fas fa-users"></i>
+                 </div>
+             </div>
+         </div>
+         <div class="stat-card">
+             <div class="stat-card-header">
+                 <div>
+                     <div class="stat-value">
+                        {{active_users}}
+                     </div>
+                     <div class="stat-label">Active Users</div>
+                 </div>
+                 <div class="stat-icon sessions">
+                     <i class="fas fa-signal"></i>
+                 </div>
+             </div>
+         </div>
+         <div class="stat-card">
+             <div class="stat-card-header">
+                 <div>
+                     <div class="stat-value">{{total_listings_count}}</div>
+                     <div class="stat-label">Total Listings</div>
+                 </div>
+                 <div class="stat-icon alerts">
+                     <i class="fas fa-house"></i>
+                 </div>
+             </div>
+         </div>
+         <div class="stat-card">
+             <div class="stat-card-header">
+                 <div>
+                     <div class="stat-value">98%</div>
+                     <div class="stat-label">System Health</div>
+                 </div>
+                 <div class="stat-icon health">
+                     <i class="fas fa-heartbeat"></i>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+      <div class="content-grid">
+         <div class="left-column">
+             <!-- Activity Chart -->
+             <div class="chart-container">
+                 <div class="section-header">
+                     <h3 class="section-title">Activity Overview</h3>
+                     <select style="padding: 5px; border-radius: 5px; border: 1px solid #ddd;">
+                         <option>Last 7 Days</option>
+                         <option>Last 30 Days</option>
+                         <option>Last 90 Days</option>
+                     </select>
+                 </div>
+                 <div class="chart-placeholder">
+                    <canvas id="property-chart"  ></canvas>
+                 </div>
+                 <!-- graphs -->
+                  {% comment %} <div class="flex flex-col sm:flex-row items-center justify-between">
+                     <div class="flex flex-col sm:flex-row items-center justify-between h-96 mb-4 rounded bg-gray-50 ">
+                        <canvas id="users-chart" width="729" height="500"></canvas>
+                      </div>
+                      <div class="flex flex-col sm:flex-row items-center justify-between h-96 mb-4 rounded bg-gray-50 ">
+                        <canvas id="property-chart" width="729" height="500"></canvas>
+                      </div>
+                  </div>  {% endcomment %}
+                  <!--end  graphs -->
+             </div>
+
+             <!-- Recent Actions -->
+             <div class="recent-actions">
+                 <div class="section-header">
+                     <h3 class="section-title">Recent Actions</h3>
+                     <button style="background: none; border: none; color: var(--primary); cursor: pointer;">
+                         View All
+                     </button>
+                 </div>
+                 <div class="actions-list">
+                     <div class="action-item">
+                         <div class="action-icon">
+                             <i class="fas fa-user-plus"></i>
+                         </div>
+                         <div class="action-details">
+                             <div class="action-title">New user registered</div>
+                             <div class="action-time">2 minutes ago</div>
+                         </div>
+                     </div>
+                     <div class="action-item">
+                         <div class="action-icon">
+                             <i class="fas fa-file-upload"></i>
+                         </div>
+                         <div class="action-details">
+                             <div class="action-title">Document uploaded</div>
+                             <div class="action-time">15 minutes ago</div>
+                         </div>
+                     </div>
+                     <div class="action-item">
+                         <div class="action-icon">
+                             <i class="fas fa-cog"></i>
+                         </div>
+                         <div class="action-details">
+                             <div class="action-title">System settings updated</div>
+                             <div class="action-time">1 hour ago</div>
+                         </div>
+                     </div>
+                     <div class="action-item">
+                         <div class="action-icon">
+                             <i class="fas fa-shield-alt"></i>
+                         </div>
+                         <div class="action-details">
+                             <div class="action-title">Security patch applied</div>
+                             <div class="action-time">3 hours ago</div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         <div class="right-column">
+             <!-- System Status -->
+             <div class="system-status">
+                 <div class="section-header">
+                     <h3 class="section-title">System Status</h3>
+                     <i class="fas fa-sync-alt" style="color: var(--gray); cursor: pointer;"></i>
+                 </div>
+                 <div class="status-list">
+                     <div class="status-item">
+                         <span class="status-label">Server Uptime</span>
+                         <span class="status-value good">99.9%</span>
+                     </div>
+                     <div class="status-item">
+                         <span class="status-label">CPU Usage</span>
+                         <span class="status-value">32%</span>
+                     </div>
+                     <div class="status-item">
+                         <span class="status-label">Memory Usage</span>
+                         <span class="status-value">45%</span>
+                     </div>
+                     <div class="status-item">
+                         <span class="status-label">Database</span>
+                         <span class="status-value good">Normal</span>
+                     </div>
+                     <div class="status-item">
+                         <span class="status-label">Last Backup</span>
+                         <span class="status-value warning">12 hours ago</span>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Quick Actions -->
+             <div class="quick-actions">
+                 <button class="action-btn">
+                     <i class="fas fa-user-plus"></i>
+                     <span>Add User</span>
+                 </button>
+                 <button class="action-btn">
+                     <i class="fas fa-file-export"></i>
+                     <span>Export Data</span>
+                 </button>
+                 <button class="action-btn">
+                     <i class="fas fa-cog"></i>
+                     <span>Settings</span>
+                 </button>
+                 <button class="action-btn">
+                     <i class="fas fa-question-circle"></i>
+                     <span>Help</span>
+                 </button>
+             </div>
+         </div>
+     </div>
+
+      {% comment %} <div class="grid grid-cols-2 gap-4 mb-4">
+         <div class="flex items-center justify-between p-4 rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <div class=" flex flex-col">
+                <span class=" text-gray-500">Total Properties Listed:</span>
+                <h3 class=" text-2xl font-bold">{{total_listings_count}}</h3>
+            </div>
+            <div class="">
+               <i class="fas fa-home "></i>
+            </div>
+         </div>
+         <div class="flex items-center justify-between p-4 rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <div class=" flex flex-col">
+                <span class=" text-gray-500">Listed This Month:</span>
+                <h3 class=" text-2xl font-bold">{{month_new_listings}}</h3>
+            </div>
+            <div class="">
+               <i class="fas fa-home    "></i>
+            </div>
+         </div>
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+               </svg>
+            </p>
+         </div>
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+               </svg>
+            </p>
+         </div>
+      </div>
+      <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+         <p class="text-2xl text-gray-400 dark:text-gray-500">
+            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+         </p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+               </svg>
+            </p>
+         </div>
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+               </svg>
+            </p>
+         </div>
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+               </svg>
+            </p>
+         </div>
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+               </svg>
+            </p>
+         </div>
+      </div> {% endcomment %}
+   </div>
+</div>
+
+<script>
+   {% comment %} let ctx = document.getElementById("users-chart").getContext("2d");
+   let chart = new Chart(ctx, {
+       type: "line",
+       data: {
+           labels: {{ labels|safe }},
+           datasets: [
+               {
+                   label: "Users",
+                   data: {{ user_data|safe }},
+                   borderColor: '#4180ff',
+                   tension: 0.2,
+               }
+           ]
+       },
+       options: {
+         responsive: true,
+         title: {
+            text: "users",
+            display: true
+         },
+         scales: {
+               y: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 5,
+                        color: '#9ca2b7'
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#9ca2b7',
+                        padding: 10
+                    }
+                },
+            },
+       }
+   }); {% endcomment %}
+
+   {% comment %} property {% endcomment %}
+   let ctx2 = document.getElementById("property-chart").getContext("2d");
+   let chart2 = new Chart(ctx2, {
+       type: "bar",
+       data: {
+           labels: {{ pr_labels|safe }},
+           datasets: [
+               {
+                   label: "Properties",
+                   data: {{ pr_data|safe }},
+                   backgroundColor: [
+                     'rgb(132 204 22)',
+                   ]
+                   
+               }
+           ]
+       },
+       options: {
+         responsive: true,
+         title: {
+            text: "properties",
+            display: true
+         },
+         scales: {
+               y: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: false,
+                        padding: 5,
+                        color: '#9ca2b7'
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#9ca2b7',
+                        padding: 10
+                    }
+                },
+            },
+       }
+   });
+</script>
+
+
+{% endblock content %}

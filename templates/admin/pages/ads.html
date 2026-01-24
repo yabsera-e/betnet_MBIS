@@ -1,0 +1,102 @@
+{% extends "../layout.html" %}
+
+ {% block page_title %}/ Home {% endblock page_title %}
+
+ {% comment %} {% block overlay %}
+  <div class=" min-h-96 w-full bg-cyan-100 absolute -z-10 top-0 "></div>
+{% endblock overlay %} {% endcomment %}
+
+{% block content %}
+
+<div class=" flex">
+
+    <div class=" z-50 relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Company Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Fee
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        URL
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        File path
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Media Type
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Created At
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Duration
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Expire Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ad in ads %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ad.company_name}}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ad.fee }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class=" max-w-[4rem] overflow-x-scroll whitespace-nowrap ">
+                            {{ad.url}}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 ">
+                        <div class=" max-w-[4rem] overflow-x-scroll whitespace-nowrap ">
+                            {{ad.file_path}}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ad.media_type}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ad.created_at}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ad.duration}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ad.expire_date}}
+                    </td>
+                    <td class="px-6 py-4">
+                    {% if ad.status %}
+                        <a href="{% url 'admin-ads-status' id=ad.id %}" class="font-medium bg-red-200 p-1 focus:ring-2 focus:ring-red-400 px-2 rounded  text-red-600 dark:text-red-600 ">Remove</a>
+                    {% else %}
+                        <a href="{% url 'admin-ads-status' id=ad.id %}" class="font-medium p-1 focus:ring-2 bg-green-200 focus:ring-green-400 px-2 rounded text-green-600 dark:text-green-500">Restore</a>
+                    {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- create form -->
+<form method="post" class=" flex flex-col gap-2" enctype="multipart/form-data"> 
+  {% csrf_token %}
+  {{form.as_p}}
+  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload file</label>
+  <input name="file" class="block w-full text-sm p-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="ad-helper" type="file">
+  <div class=" text-sm text-gray-500 dark:text-gray-300" id="ad-helper">A media of ad</div>
+  <button class=" p-2 bg-cyan-600 focus:ring-2 focus:ring-cyan-200 rounded hover:bg-cyan-500">Post</button>
+</form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends "../layout.html" %}
+
+ {% block page_title %}/ Home {% endblock page_title %}
+
+ {% block overlay %}
+  <div class=" min-h-96 w-full bg-lime-200 absolute -z-10 top-0 "></div>
+{% endblock overlay %}
+
+{% block content %}
+
+<div class=" z-50 relative overflow-x-auto min-h-[40rem]  sm:rounded-lg flex flex-col justify-between ">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl ">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    comment
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-300">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{comment.user.first_name}} {{user.last_name }}
+                </th>
+                <td class="px-6 py-4">
+                    {{comment.user.email }}
+                </td>
+                <td class="px-6 py-4">
+                    {{comment.content }}
+                </td>
+                <td class="px-6 py-4">
+                {% if comment.user.is_active %}
+                    <a href="{% url 'admin-action' id=comment.user.id %}" class="font-medium bg-red-200 p-1 focus:ring-2 focus:ring-red-400 px-2 rounded  text-red-600 dark:text-red-600 ">Ban commenter</a>
+                {% else %}
+                    <a href="{% url 'admin-action' id=comment.user.id %}" class="font-medium p-1 focus:ring-2 bg-green-200 focus:ring-green-400 px-2 rounded text-green-600 dark:text-green-500">Unban commenter</a>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+         <!-- Pagination -->
+ {%if comments|length > 1 %}
+ <div class=" ">
+  <div class="">
+   <nav aria-label="Page navigation">
+     <ul class="pagination justify-center flex gap-5"> 
+        <!-- {% if page_obj.has_previous %}
+       <li class="page-item"><a class="page-link " href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">First</a></li>
+       <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Prev</a></li>
+       {% endif %}  -->
+
+       <!-- <div class=" flex gap-5"> -->
+        {% for i in page_obj.paginator.page_range %}
+       {% if i >= page_obj.number|add:'-5' and i <= page_obj.number|add:'5' %}
+       
+       <a class="page-link" href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"><li class=" p-2 rounded-full w-12 h-12 flex items-center justify-center  {% if i == page_obj.number %} border border-lime-300 bg-lime-400 {%else%} border border-gray-500 {% endif %}">{{i}}</li></a>
+       {% endif %}
+       {% endfor %} 
+       <!-- </div> -->
+       
+        <!-- {% if page_obj.has_next %}
+       <li class="page-item"><a class="page-link " href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a></li>
+       <li class="page-item"><a class="page-link " href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Last</a></li>
+       {% endif %}  -->
+     </ul>
+   </nav>
+  </div>
+ </div>
+ {% endif %}
+</div>
+
+
+{% endblock content %}

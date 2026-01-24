@@ -1,0 +1,123 @@
+{% load static %}
+{% load static tailwind_tags %}
+
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <title>የሚከራይ ቤት አለ {%block pagetitle %} {% endblock pagetitle %}</title>
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet" />
+  <link rel="icon" href="{% static 'logo_no_text.png' %}" type="image/png">
+
+  {% tailwind_css %}
+  <style>
+    /* Custom lime colors if needed */
+  </style>
+</head>
+<style>
+    * {
+        font-family:'Poppins'
+    }
+</style>
+<body class="bg-white font-sans text-gray-800">
+
+  <!-- NAVBAR -->
+  <nav class=" text-black py-2 sticky top-0 z-50 bg-white">
+    <div class=" mx-auto px-4 sm:px-6 lg:px-20">
+      <div class="flex justify-between items-center h-16">
+        <a href="{% url 'listings' %}" class="text-2xl font-bold tracking-wide">
+          <img class="w-10 sm:w-[3rem] object-cover flex-none" src="{% static 'logo.png' %}" alt="Listing Media">
+        </a>
+        <div class="hidden md:flex items-center space-x-6">
+        <a href="{% url 'listings' %}" class="hover:text-teal-600 transition">Home</a>
+          {%if user.is_authenticated%}
+          <a href="{% url 'my_listings' %}" class="block py-2 px-2 rounded hover:text-teal-600">My Listings </a>
+          <a href="{% url 'conversation_list' %}" class="block py-2 px-2 rounded"><i  class="fa fa-comments text-3xl text-secondary hover:text-teal-600" ></i> </a>
+          <a href="{% url 'listing_create' %}" class="block py-2 px-4 rounded-xl text-white bg-secondary hover:bg-teal-800">Post</a>
+          <a href="{%url 'logout' %}"  class="block py-2 px-4 rounded-xl text-secondary bg-white hover:bg-secondary hover:text-white duration-300">
+            Logout
+          </a>
+          {%else%}
+           <a href="{%url 'login' %}"  class="block py-2 px-4 rounded-xl text-white bg-secondary hover:bg-teal-800">
+            Login
+          </a> 
+           {%endif%} 
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button id="mobile-menu-btn" aria-label="Toggle menu" class="focus:outline-none rounded ">
+            <svg id="menu-icon" class="w-8 h-8" fill="none" stroke="black" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <!-- Hamburger icon -->
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    <!-- Mobile menu (hidden by default) -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white px-4 pb-4 pt-4 space-y-2 ">
+      <a href="{% url 'listings' %}" class="block py-2 px-2 rounded hover:bg-teal-500">Home</a>
+      {%if user.is_authenticated%}
+      <a href="{% url 'listing_create' %}" class="block py-2 px-2 rounded hover:bg-teal-500">Post</a>
+      <a href="{% url 'my_listings' %}" class="block py-2 px-2 rounded hover:bg-teal-500">My Listings </a>
+      <a href="{% url 'conversation_list' %}" class="block py-2 px-2 rounded hover:bg-teal-500">Messages</a>
+      <a href="{%url 'logout' %}" class="block py-2 px-2 rounded hover:bg-teal-500">Logout</a>
+      {%else%}
+      <a href="{%url 'login' %}"  class="block py-2 px-2 rounded hover:bg-teal-500">
+        Login
+      </a>
+      {%endif%}
+    </div>
+  </nav>
+
+  {% comment %} main {% endcomment %}
+  <div class="">
+    {%block content%}
+    {%endblock content%}
+  </div>
+ 
+  <!-- FOOTER -->
+  <footer class="bg-secondary text-white  px-4 sm:px-6 lg:px-14 py-8 mt-20">
+    <div class=" mx-auto flex flex-col sm:flex-row justify-between items-center">
+      <p class="text-sm text-center">&copy; {{ now }} የሚከራይ ቤት አለ . <a target="_blank" href="https://natnaellegesse.vercel.app" class="hover:underline">Natnael Legesse™</a>.  All rights reserved.</p>
+      <div class="space-x-4 mt-4 sm:mt-0">
+        {% comment %} <a href="#" class="hover:text-lime-300 transition">Privacy Policy</a> {% endcomment %}
+        <a href="{%url 'terms' %}" class="hover:text-lime-300 transition">Terms of Service</a>
+        {% comment %} <a href="#" class="hover:text-lime-300 transition">Contact</a> {% endcomment %}
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const menuIcon = document.getElementById('menu-icon');
+    const mobileMenu = document.getElementById('mobile-menu');
+  
+    let menuOpen = false;
+  
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuOpen = !menuOpen;
+  
+      if (menuOpen) {
+        // Change to "X" icon
+        menuIcon.innerHTML = `<path d="M6 18L18 6M6 6l12 12" />`;
+      } else {
+        // Change back to hamburger
+        menuIcon.innerHTML = `<path d="M4 6h16M4 12h16M4 18h16" />`;
+      }
+    });
+  </script>
+  
+</body>
+</html>

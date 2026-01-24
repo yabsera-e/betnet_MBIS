@@ -1,0 +1,407 @@
+{% load static %}
+{% load static tailwind_tags %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>የሚከራይ ቤት አለ - Find Your Perfect Rental</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% tailwind_css %}
+</head>
+<style>
+  body{
+    font-family:'Poppins'
+  }
+
+  .nata-sans {
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  
+  
+.oswald-<uniquifier> {
+ 
+}
+  
+  
+.gradient {
+  height: fit-content;
+  z-index: 0;
+  max-width: 940px;
+  background-image: radial-gradient(
+      at 27% 37%,
+      hsla(215, 98%, 61%, 1) 0px,
+      transparent 0%
+    ),
+    radial-gradient(at 52% 99%, rgba(255, 79, 26, 0.922) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, rgb(36, 164, 255) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+  position: absolute;
+  content: "";
+  width: 100%%;
+  height: 100px;
+  filter: blur(100px) saturate(150%);
+  opacity: 0.9;
+}
+</style>
+<body class="bg-white text-black">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between p-6 md:px-16 text-lime-500 bg-lime-100">
+    <h1 class="text-2xl font-bold">
+      <img class="w-[2rem] md:w-[4rem] object-cover flex-none " src="{% static 'logo.png' %}" alt="logo">
+    </h1>
+    <nav class="hidden md:flex space-x-6 text-xl ">
+      <a href="#" class="hover:text-amber-400">Home</a>
+      <a href="#features" class="hover:text-amber-400">Features</a>
+      <a href="#listings" class="hover:text-amber-400">Listings</a>
+      <a href="#FAQ" class="hover:text-amber-400">FAQ</a>
+    </nav>
+    <a href="{% url 'login' %}" class="bg-amber-400 text-black px-4 py-2 rounded hover:bg-amber-500">Login</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-lime-100 py-14 px-6 md:px-16 flex flex-col-reverse md:flex-row items-center">
+    <div class="md:w-1/2">
+      <h2 class=" text-6xl sm:text-8xl font-bold mb-4 text-center sm:text-left">Helping You Find Home Sweet Home</h2>
+      <p class="mb-6 text-lg text-gray-700">Browse thousands of verified properties from trusted landlords.</p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        {% comment %} <input type="text" placeholder="Search location..." class="px-4 py-2 border rounded w-full sm:w-auto"> {% endcomment %}
+        <a href="{% url 'listings' %}" class="bg-secondary text-xl text-white px-6 py-4 rounded-full hover:bg-lime-700 hover:shadow">Start Browsing</a>
+      </div>
+    </div>
+    <div class="md:w-1/2 mb-8 md:mb-0">
+      <img src="{% static 'hero.png' %}" alt="Rental home" class="w-full">
+    </div>
+  </section>
+
+  <!-- Featured Listings -->
+  <section id="listings" class="py-16 px-6 md:px-16 bg-white">
+    <h3 class="text-3xl font-bold mb-8 text-center">Featured Listings</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Card  -->
+      {% for listing in featured_listings %}
+      <div class="border rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        {%if listing.medias.all %}
+          {% for media in listing.medias.all %}
+            {% if forloop.first %}
+              <img class="w-full h-48 object-cover" src="{{ media.file_path }}" alt="Listing Media">
+            {% endif %}
+          {% endfor %}
+        {%else%}
+          <img class="h-[12rem] w-full  object-cover flex-none scroll-snap-align-start" src="https://img.freepik.com/free-vector/beautiful-home_24877-50819.jpg?t=st=1717506044~exp=1717509644~hmac=24522bbbc677586abe5adb4f91a1bdde053ef16b9d3f06374cfd1e0bfcdfa949&w=826" alt="">
+        {%endif%}
+        <div class="p-4">
+          <a href="{% url 'listings' %}"><h4 class="text-xl font-semibold">{{listing.title}}</h4></a>
+          <p class="text-gray-600">ETB {{listing.price}}/month · {{ listing.area }}, {{ listing.sub_city }}</p>
+        </div>
+      </div>
+      {% endfor %} 
+      
+  </section>
+
+  {% comment %} how {% endcomment %}
+  <section id="features" class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        How It Works
+      </h2>
+      <p class="mt-4 text-lg text-gray-600">
+        Renting your next home is simple. Just follow these easy steps.
+      </p>
+    </div>
+  
+    <div class="mt-12 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+      <!-- Step 1 -->
+      <div class="text-center">
+        <div class="flex items-center justify-center w-16 h-16 mx-auto bg-secondary-100 text-secondary rounded-full text-2xl font-bold">
+          1
+        </div>
+        <h3 class="mt-4 text-xl font-semibold text-gray-800">Browse Listings</h3>
+        <p class="mt-2 text-gray-600">
+          Explore verified rental homes in your desired location with filters that match your lifestyle.
+        </p>
+      </div>
+  
+      <!-- Step 2 -->
+      <div class="text-center">
+        <div class="flex items-center justify-center w-16 h-16 mx-auto bg-secondary-100 text-secondary rounded-full text-2xl font-bold">
+          2
+        </div>
+        <h3 class="mt-4 text-xl font-semibold text-gray-800">Connect with Hosts</h3>
+        <p class="mt-2 text-gray-600">
+          Message property owners directly, ask questions, and schedule viewings with ease.
+        </p>
+      </div>
+  
+      <!-- Step 3 -->
+      <div class="text-center">
+        <div class="flex items-center justify-center w-16 h-16 mx-auto bg-secondary-100 text-secondary rounded-full text-2xl font-bold">
+          3
+        </div>
+        <h3 class="mt-4 text-xl font-semibold text-gray-800">Secure Your Home</h3>
+        <p class="mt-2 text-gray-600">
+          Finalize details with the host, and move in — all through our secure and transparent platform.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Why Choose Us -->
+  {% comment %} <section id="features" class="bg-lime-50 py-16 px-6 md:px-16">
+    <h3 class="text-3xl font-bold text-center mb-12">Why Choose us?</h3>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div>
+        <div class="text-amber-400 text-4xl mb-4">🔒</div>
+        <h4 class="text-xl font-semibold mb-2">Verified Listings</h4>
+        <p class="text-gray-600">All properties are verified for accuracy and safety.</p>
+      </div>
+      <div>
+        <div class="text-amber-400 text-4xl mb-4">⚡</div>
+        <h4 class="text-xl font-semibold mb-2">Fast Booking</h4>
+        <p class="text-gray-600">Book rentals with instant confirmation and secure payments.</p>
+      </div>
+      <div>
+        <div class="text-amber-400 text-4xl mb-4">📞</div>
+        <h4 class="text-xl font-semibold mb-2">24/7 Support</h4>
+        <p class="text-gray-600">Our team is always available to help you out.</p>
+      </div>
+    </div>
+  </section> {% endcomment %}
+
+  <section class=" bg-amber-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center mb-12">
+      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Why Choose Us</h2>
+      <p class="mt-4 text-lg text-gray-600">
+        Here’s what makes our rental marketplace stand out.
+      </p>
+    </div>
+  
+    <div class="flex  flex-col md:flex-row items-center justify-center gap-12">
+      <!-- Left Bullets -->
+      <div class="flex  flex-col gap-8 text-right w-full  md:w-1/5">
+        <div class="flex flex-col items-end">
+          <h3 class="text-xl font-semibold text-secondary text-left  w-full">Verified Listings</h3>
+          <p class="text-gray-600 mt-1 max-w-xs text-left">
+            Every property is manually reviewed for accuracy and safety.
+          </p>
+        </div>
+        <div class="flex flex-col items-end">
+          <h3 class="text-xl font-semibold text-secondary w-full text-left">No Hidden Fees</h3>
+          <p class="text-gray-600 mt-1 max-w-xs text-left">
+            What you see is what you pay — transparent pricing across all listings.
+          </p>
+        </div>
+      </div>
+  
+      <!-- Center Image -->
+      <div class=" w-72 h-72  flex-shrink-0">
+        <img src="{% static 'wcu.png' %}" alt="Why Choose Us" class="w-full h-full object-cover" />
+      </div>
+  
+      <!-- Right Bullets -->
+      <div class="flex flex-col gap-8 text-left w-full  md:w-1/5">
+        <div class="flex flex-col items-start">
+          <h3 class="text-xl font-semibold text-secondary">Direct Messaging</h3>
+          <p class="text-gray-600 mt-1 max-w-xs">
+            Contact hosts directly and get answers fast, with no middleman.
+          </p>
+        </div>
+        <div class="flex flex-col items-start">
+          <h3 class="text-xl font-semibold text-secondary">Local Support</h3>
+          <p class="text-gray-600 mt-1 max-w-xs">
+            Our support team is available to help you, wherever you're renting.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Testimonials -->
+  <section class="bg-white py-28 px-6 md:px-16">
+    <h3 class="text-3xl font-bold text-center mb-12">What Our Users Say</h3>
+    <div id="marquee-container" class="marquee-wrapper">
+      <div id="marquee-content"  class="marquee-content flex gap-8" id="marquee">
+        <div class="md:h-[10rem] min-w-[30rem] testimonial-track relative overflow-hidden border p-6 rounded-xl">
+          <svg class="absolute -right-10 top-0 w-[10rem] z-0" fill="#97ff9761" xmlns="http://www.w3.org/500/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 379.51"><path d="M212.27 33.98C131.02 56.52 78.14 103.65 64.99 185.67c-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160.01 60.56 27.12 149.48-159.79 175.36-215.11 92.8-12.87-19.19-21.39-41.59-24.46-66.19C-11.35 159.99 43.48 64.7 139.8 19.94c17.82-8.28 36.6-14.76 56.81-19.51 10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78zm267.78 0c-81.25 22.54-134.14 69.67-147.28 151.69-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160 60.56 27.13 149.48-159.78 175.36-215.1 92.8-12.87-19.19-21.39-41.59-24.46-66.19C256.43 159.99 311.25 64.7 407.58 19.94 425.4 11.66 444.17 5.18 464.39.43c10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78z"/></svg>
+          <p class="text-gray-500 italic z-10">I found my dream apartment in just two days using YBA. Super easy and transparent!</p>
+          <p class="mt-4 font-bold text-lime-600">— Gete Kasu.</p>
+        </div> 
+        <div class="md:h-[10rem] min-w-[30rem]  testimonial-track  relative overflow-hidden border p-6 rounded-xl z-10 "> 
+          <svg class="absolute -right-10 top-0 w-[10rem] z-0" fill="#97ff9761" xmlns="http://www.w3.org/500/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 379.51"><path d="M212.27 33.98C131.02 56.52 78.14 103.65 64.99 185.67c-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160.01 60.56 27.12 149.48-159.79 175.36-215.11 92.8-12.87-19.19-21.39-41.59-24.46-66.19C-11.35 159.99 43.48 64.7 139.8 19.94c17.82-8.28 36.6-14.76 56.81-19.51 10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78zm267.78 0c-81.25 22.54-134.14 69.67-147.28 151.69-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160 60.56 27.13 149.48-159.78 175.36-215.1 92.8-12.87-19.19-21.39-41.59-24.46-66.19C256.43 159.99 311.25 64.7 407.58 19.94 425.4 11.66 444.17 5.18 464.39.43c10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78z"/></svg>
+          <p class="text-gray-500 italic z-20">"The listings are legit and the booking process is smooth. Highly recommended!"</p>
+          <p class="mt-4 font-bold text-lime-600">— Tomas Abebe.</p>
+        </div>
+        <div class="md:h-[10rem] min-w-[30rem]  testimonial-track relative overflow-hidden border p-6 rounded-xl ">
+          <svg class="absolute -right-10 top-0 w-[10rem] z-0" fill="#97ff9761" xmlns="http://www.w3.org/500/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 379.51"><path d="M212.27 33.98C131.02 56.52 78.14 103.65 64.99 185.67c-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160.01 60.56 27.12 149.48-159.79 175.36-215.11 92.8-12.87-19.19-21.39-41.59-24.46-66.19C-11.35 159.99 43.48 64.7 139.8 19.94c17.82-8.28 36.6-14.76 56.81-19.51 10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78zm267.78 0c-81.25 22.54-134.14 69.67-147.28 151.69-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160 60.56 27.13 149.48-159.78 175.36-215.1 92.8-12.87-19.19-21.39-41.59-24.46-66.19C256.43 159.99 311.25 64.7 407.58 19.94 425.4 11.66 444.17 5.18 464.39.43c10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78z"/></svg>
+          <p class="text-gray-500 italic z-10">I found my dream apartment in just two days using YBA. Super easy and transparent!</p>
+          <p class="mt-4 font-bold text-lime-600">— Gete Kasu.</p>
+        </div>
+        <div class="md:h-[10rem] min-w-[30rem]  testimonial-track relative overflow-hidden border p-6 rounded-xl z-10 ">
+          <svg class="absolute -right-10 top-0 w-[10rem] z-0" fill="#97ff9761" xmlns="http://www.w3.org/500/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 379.51"><path d="M212.27 33.98C131.02 56.52 78.14 103.65 64.99 185.67c-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160.01 60.56 27.12 149.48-159.79 175.36-215.11 92.8-12.87-19.19-21.39-41.59-24.46-66.19C-11.35 159.99 43.48 64.7 139.8 19.94c17.82-8.28 36.6-14.76 56.81-19.51 10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78zm267.78 0c-81.25 22.54-134.14 69.67-147.28 151.69-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160 60.56 27.13 149.48-159.78 175.36-215.1 92.8-12.87-19.19-21.39-41.59-24.46-66.19C256.43 159.99 311.25 64.7 407.58 19.94 425.4 11.66 444.17 5.18 464.39.43c10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78z"/></svg>
+          <p class="text-gray-500 italic z-20">"The listings are legit and the booking process is smooth. Highly recommended!"</p>
+          <p class="mt-4 font-bold text-lime-600">— Tomas Abebe.</p>
+        </div>
+        <div class="md:h-[10rem] min-w-[30rem]  testimonial-track relative overflow-hidden border p-6 rounded-xl z-10 ">
+          <svg class="absolute -right-10 top-0 w-[10rem] z-0" fill="#97ff9761" xmlns="http://www.w3.org/500/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 379.51"><path d="M212.27 33.98C131.02 56.52 78.14 103.65 64.99 185.67c-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160.01 60.56 27.12 149.48-159.79 175.36-215.11 92.8-12.87-19.19-21.39-41.59-24.46-66.19C-11.35 159.99 43.48 64.7 139.8 19.94c17.82-8.28 36.6-14.76 56.81-19.51 10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78zm267.78 0c-81.25 22.54-134.14 69.67-147.28 151.69-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160 60.56 27.13 149.48-159.78 175.36-215.1 92.8-12.87-19.19-21.39-41.59-24.46-66.19C256.43 159.99 311.25 64.7 407.58 19.94 425.4 11.66 444.17 5.18 464.39.43c10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78z"/></svg>
+          <p class="text-gray-500 italic z-20">"The listings are legit and the booking process is smooth. Highly recommended!"</p>
+          <p class="mt-4 font-bold text-lime-600">— Tomas Abebe.</p>
+        </div>
+        <div class="md:h-[10rem] min-w-[30rem]  testimonial-track relative overflow-hidden border p-6 rounded-xl z-10 ">
+          <svg class="absolute -right-10 top-0 w-[10rem] z-0" fill="#97ff9761" xmlns="http://www.w3.org/500/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 379.51"><path d="M212.27 33.98C131.02 56.52 78.14 103.65 64.99 185.67c-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160.01 60.56 27.12 149.48-159.79 175.36-215.11 92.8-12.87-19.19-21.39-41.59-24.46-66.19C-11.35 159.99 43.48 64.7 139.8 19.94c17.82-8.28 36.6-14.76 56.81-19.51 10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78zm267.78 0c-81.25 22.54-134.14 69.67-147.28 151.69-3.58 22.32 1.42 5.46 16.55-5.86 49.4-36.96 146.53-23.88 160 60.56 27.13 149.48-159.78 175.36-215.1 92.8-12.87-19.19-21.39-41.59-24.46-66.19C256.43 159.99 311.25 64.7 407.58 19.94 425.4 11.66 444.17 5.18 464.39.43c10.12-2.05 17.47 3.46 20.86 12.77 2.87 7.95 3.85 16.72-5.2 20.78z"/></svg>
+          <p class="text-gray-500 italic z-20">"The listings are legit and the booking process is smooth. Highly recommended!"</p>
+          <p class="mt-4 font-bold text-lime-600">— Tomas Abebe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+      <p class="text-gray-600 mb-12">Everything you need to know about booking, renting, and listing on our platform.</p>
+    </div>
+  
+    <div class="max-w-3xl mx-auto space-y-4" id="faq-container">
+      <!-- FAQ Item -->
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 bg-white hover:bg-lime-100 transition" onclick="toggleFAQ(this)">
+          <span class="text-left text-gray-800 font-medium text-lg">How do I book a rental home?</span>
+          <svg class="w-5 h-5 text-gray-400 transition-transform duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="p-5 text-gray-600 hidden">
+          Simply browse listings, select your preferred property, check availability, and proceed with the secure booking process directly through our platform.
+        </div>
+      </div>
+     
+  
+      <!-- FAQ Item -->
+      <div id="FAQ" class="border border-gray-200 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 bg-white hover:bg-lime-100 transition" onclick="toggleFAQ(this)">
+          <span class="text-left text-gray-800 font-medium text-lg">Can I list my property as a landlord?</span>
+          <svg class="w-5 h-5 text-gray-400 transition-transform duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="p-5 text-gray-600 hidden">
+          Absolutely! You can register as a landlord, create a listing with photos and details, and start receiving inquiries right away.
+        </div>
+      </div>
+  
+      <!-- FAQ Item -->
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 bg-white hover:bg-lime-100 transition" onclick="toggleFAQ(this)">
+          <span class="text-left text-gray-800 font-medium text-lg">What happens if a booking is canceled?</span>
+          <svg class="w-5 h-5 text-gray-400 transition-transform duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="p-5 text-gray-600 hidden">
+          Our cancellation policy protects both renters and landlords. Refunds and penalties are processed according to the agreed terms during booking.
+        </div>
+      </div>
+  
+      <!-- FAQ Item -->
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <button class="w-full flex justify-between items-center p-5 bg-white hover:bg-lime-100 transition" onclick="toggleFAQ(this)">
+          <span class="text-left text-gray-800 font-medium text-lg">Do you verify listings?</span>
+          <svg class="w-5 h-5 text-gray-400 transition-transform duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="p-5 text-gray-600 hidden">
+          Yes, all listings go through a manual verification process to ensure they meet our quality and authenticity standards before going live.
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Footer -->
+  <footer id="contact" class="bg-lime-600 text-white p-6 md:px-16">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <h4 class="text-xl font-bold">
+        <img class="w-[2rem] md:w-[4rem] object-cover flex-none invert brightness-0" src="{% static 'logo.png' %}" alt="logo">
+      </h4>
+      <p class="text-sm mt-4 md:mt-0">&copy; 2025 የሚከራይ ቤት አለ . Natnael Legesse . All rights reserved.</p>
+      <div class="flex space-x-4 mt-4 md:mt-0">
+        <a href="#" class="hover:text-amber-400">Privacy</a>
+        <a href="#" class="hover:text-amber-400">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+<style>
+  .marquee-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .testimonial {
+    flex: 0 0 auto;
+    width: 300px;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: linear-gradient(to top right, #d9f99d, #bef264);
+    border: 1px solid #a3e635;
+    font-style: italic;
+    font-weight: 500;
+  }
+</style> 
+
+<script>
+  const container = document.getElementById('marquee-container');
+  const content = document.getElementById('marquee-content');
+  let position = 100;
+  const scrollSpeed = 1; 
+
+  function animateMarquee() {
+      position -= scrollSpeed;
+      if (position <= -content.offsetWidth) {
+          position = container.offsetWidth; 
+      }
+      content.style.transform = `translateX(${position}px)`;
+      requestAnimationFrame(animateMarquee); 
+  }
+
+  animateMarquee();
+  
+</script>
+<script>
+  function toggleFAQ(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('svg');
+
+    const isOpen = !content.classList.contains('hidden');
+
+    // Close all open items
+    document.querySelectorAll('#faq-container > div').forEach(item => {
+      item.querySelector('div:nth-child(2)').classList.add('hidden');
+      item.querySelector('svg').classList.remove('rotate-180');
+    });
+
+    // Toggle current item
+    if (!isOpen) {
+      content.classList.remove('hidden');
+      icon.classList.add('rotate-180');
+    }
+  }
+</script>
+
+</html>
+

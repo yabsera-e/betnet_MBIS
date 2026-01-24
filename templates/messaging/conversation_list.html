@@ -1,0 +1,50 @@
+
+
+{% extends "newbase.html" %}
+{% block content %}
+
+<div class="px-4 sm:px-6 lg:px-14"> 
+<h3 class="text-3xl font-semibold text-center text-secondary mt-6 mb-4 ">Chats</h3>
+
+<div class="flex flex-col gap-4">
+    {% for conversation in conversations %}
+    <a href="{% url 'conversation_detail' pk=conversation.pk %}"
+       class="group flex items-center gap-4 p-4 rounded-xl bg-amber-100 shadow hover:bg-lime-100 transition duration-300">
+
+        <!-- Listing Image -->
+        {% if conversation.listing %}
+        {% with last_image=conversation.listing.medias.first %}
+        <img src="{{ last_image.file_path }}" alt="Listing Media"
+             class="h-20 w-20 object-cover rounded-lg border border-lime-300 group-hover:scale-105 transition duration-300">
+        {% endwith %}
+        {% endif %}
+
+        <!-- Conversation Content -->
+        <div class="flex-1 overflow-hidden">
+            <div class="flex flex-col items-start mb-1">
+                <!-- Participant Name -->
+                <div class="text-lg font-semibold text-gray-800 group-hover:text-lime-700 truncate">
+                    {% for participant in conversation.participants.all %}
+                        {% if participant != request.user %}
+                            {{ participant.first_name }} {{ participant.last_name }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Last Message Preview -->
+                <div class="text-sm text-gray-600 truncate max-w-xs ml-4">
+                    {% if conversation.messages.exists %}
+                    {% with last_message=conversation.messages.last %}
+                        {{ last_message.content|truncatewords:10 }}
+                    {% endwith %}
+                    {% else %}
+                        <span class="italic text-gray-300">No messages yet</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+    </div>
+</div>
+{% endblock content %}
