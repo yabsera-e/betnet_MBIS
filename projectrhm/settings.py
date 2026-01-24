@@ -27,7 +27,7 @@ DATABASES = {
 #BASE_DIR = Path(__file__).resolve().parent.parent
 
 # explicitly point to the .env in project root
-load_dotenv(dotenv_path=BASE_DIR / ".env")
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 print("SUPABASE_URL:", os.environ.get("SUPABASE_URL"))
 print("SUPABASE_SEC:", os.environ.get("SUPABASE_SEC"))
