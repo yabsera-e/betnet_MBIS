@@ -25,7 +25,8 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
 packaging==24.0
-pillow==10.2.0
+--only-binary :all:
+Pillow==10.2.0
 postgrest==0.16.4
 psycopg2-binary==2.9.9
 pydantic==2.7.2
