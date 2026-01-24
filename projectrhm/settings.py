@@ -16,7 +16,15 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+#BASE_DIR = Path(__file__).resolve().parent.parent
 
 # explicitly point to the .env in project root
 load_dotenv(dotenv_path=BASE_DIR / ".env")
