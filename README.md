@@ -38,9 +38,9 @@ BetNet addresses these challenges by providing:
 
 This project was developed by **Master of Business and Information Systems students at AAU**:
 
-- **Yabsera Erdaw** (ID: GSE3679/17)  
-- **Natnael Dereje** (ID: GSE/2218/17)  
-- **Yeabsira Tadesse** (ID: GSE/5631/17)  
+- **Yabsera Erdaw** (ID: GSE3679/17) yabadmin@gmail.com betnet123; yabuser@gmail.com 
+- **Natnael Dereje** (ID: GSE/2218/17) natid@gmail.com betnet123 
+- **Yeabsira Tadesse** (ID: GSE/5631/17) yeabd@gmail.com betnet123 
 
 ## Live Preview
 
