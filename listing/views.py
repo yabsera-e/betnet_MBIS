@@ -139,55 +139,61 @@ def listing_retrieve(request,id):
     return render(request, 'listing/detail.html', context)
 
 @login_required
+def listing_payment(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id)
+
+    if request.method == "POST":
+        # SIMULATED PAYMENT — no real processing
+        listing.is_paid = True
+        listing.save()
+        return redirect("listings")
+
+    return render(request, "payment/listing_payment.html", {
+        "listing": listing
+    })
+
+@login_required
 def listing_create(request):
     if request.method == 'POST':
         form = ListingForm(request.POST)
+
         if form.is_valid():
-            form.instance.user_id = request.user.id
-            form.save() 
+            listing = form.save(commit=False)
+            listing.user_id = request.user.id
+            listing.is_paid = False          # 🔒 NOT PAID YET
+            listing.save()
+
+            # ---------- MEDIA UPLOAD ----------
             if request.FILES.getlist('media'):
-                    for media_file in request.FILES.getlist('media'):
-                        # media storage upload
-                        # file_name = f'listing_{form.instance.id}_{uuid.uuid4()}{os.path.splitext(media_file.name)[1]}'
-                        # file_path = f'listings/{file_name}'
-                        # listing_media = ListingMedia()
-                        # listing_media.listing = form.instance
-                        # listing_media.media_type = media_file.content_type
-                        # default_storage.save(file_path, media_file)
-                        # file_url = f'{settings.MEDIA_URL}{file_path}'
-                        # listing_media.file_path = file_url
-                        # listing_media.save()
+                for media_file in request.FILES.getlist('media'):
+                    file_ext = os.path.splitext(media_file.name)[1]
+                    file_name = f'listing_{listing.id}_{uuid.uuid4()}{file_ext}'
 
-                        # supabase upload
-                        file = media_file
-                        file_ext = os.path.splitext(file.name)[1]
-                        file_name = f'listing_{form.instance.id}_{uuid.uuid4()}{os.path.splitext(media_file.name)[1]}'
-                        listing_media = ListingMedia()
-                        listing_media.listing = form.instance
-                        listing_media.media_type = media_file.content_type
-                        upload_response = supabase.storage.from_(bucket_name).upload(file_name, file.read(), file_options={"content-type": f"image/{file_ext}"})
-                        if upload_response.status_code == 200:
-                            print('Upload successful:', upload_response)
-                            public_url = supabase.storage.from_(bucket_name).get_public_url(file_name)
-                            print(public_url)
-                            listing_media.file_path = public_url
-                            listing_media.file_name = file_name
-                            listing_media.save()
-                        else:
-                            print('Upload failed:', upload_response['error'])
+                    listing_media = ListingMedia()
+                    listing_media.listing = listing
+                    listing_media.media_type = media_file.content_type
 
+                    upload_response = supabase.storage.from_(bucket_name).upload(
+                        file_name,
+                        media_file.read(),
+                        file_options={"content-type": media_file.content_type}
+                    )
 
-            listings = Listing.objects.all()
-            context = {
-                "listings":listings
-            }
-            return redirect("listings")
-        return 
-    form = ListingForm()
-    context = {
-        'form':form
-    }
-    return render(request, "listing/create.html",context)
+                    if upload_response.status_code == 200:
+                        public_url = supabase.storage.from_(bucket_name).get_public_url(file_name)
+                        listing_media.file_path = public_url
+                        listing_media.file_name = file_name
+                        listing_media.save()
+                    else:
+                        print('Upload failed')
+
+            # 🚀 REDIRECT TO PAYMENT (NOT listings)
+            return redirect("listing_payment", listing_id=listing.id)
+
+    else:
+        form = ListingForm()
+
+    return render(request, "listing/create.html", {"form": form})
 
 @login_required
 def set_status(request,id):

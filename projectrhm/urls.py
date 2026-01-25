@@ -31,4 +31,5 @@ urlpatterns = [
     path('messaging/', include('messaging.urls')),
     path('comments/', include('comment.urls')),
     path('admin-panel/', include('admindashboard.urls')),
+    path("listings/", include("listing.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

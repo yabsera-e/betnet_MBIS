@@ -8,7 +8,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <title>የሚከራይ ቤት አለ {%block pagetitle %} {% endblock pagetitle %}</title>
+  <title>ቤትNet{%block pagetitle %} {% endblock pagetitle %}</title>
   <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
@@ -32,7 +32,7 @@
     <div class=" mx-auto px-4 sm:px-6 lg:px-20">
       <div class="flex justify-between items-center h-16">
         <a href="{% url 'listings' %}" class="text-2xl font-bold tracking-wide">
-          <img class="w-10 sm:w-[3rem] object-cover flex-none" src="{% static 'logo.png' %}" alt="Listing Media">
+          <img class="w-20 sm:w-[6rem] object-cover flex-none" src="{% static 'logo.png' %}" alt="Listing Media">
         </a>
         <div class="hidden md:flex items-center space-x-6">
         <a href="{% url 'listings' %}" class="hover:text-teal-600 transition">Home</a>
@@ -88,7 +88,16 @@
   <!-- FOOTER -->
   <footer class="bg-secondary text-white  px-4 sm:px-6 lg:px-14 py-8 mt-20">
     <div class=" mx-auto flex flex-col sm:flex-row justify-between items-center">
-      <p class="text-sm text-center">&copy; {{ now }} የሚከራይ ቤት አለ . <a target="_blank" href="https://natnaellegesse.vercel.app" class="hover:underline">Natnael Legesse™</a>.  All rights reserved.</p>
+      <p class="text-sm text-center space-y-2">
+    <span class="block">&copy; {{ now }} ቤትNet</span>
+    <span class="block">Made in Ethiopia (MBIS Group Assignment)</span>
+    <span class="block">
+        <a target="_blank" href="https://aau.edu.et/" class="hover:underline">
+            AAU School of Commerce™
+        </a>
+    </span>
+    <span class="block">All rights reserved.</span>
+</p>
       <div class="space-x-4 mt-4 sm:mt-0">
         {% comment %} <a href="#" class="hover:text-lime-300 transition">Privacy Policy</a> {% endcomment %}
         <a href="{%url 'terms' %}" class="hover:text-lime-300 transition">Terms of Service</a>

@@ -45,14 +45,22 @@ class Listing(models.Model):
     admin_status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     amenities = models.ManyToManyField(Amenity, blank=True, related_name='listings')
+    is_paid = models.BooleanField(default=False)
+    payment_method = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.title
     
     class Meta:
         db_table = 'listings'
+
+class ChatAccess(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    is_paid = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 class ListingMedia(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='medias')
@@ -61,6 +69,8 @@ class ListingMedia(models.Model):
     media_type = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
 
     class Meta:
         db_table = 'listing_medias'
