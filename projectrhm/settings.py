@@ -91,15 +91,16 @@ MIDDLEWARE = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://yba.onrender.com',
-    
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://betnet-mbis.onrender.com",
 ]
 
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "https://yba.onrender.com"
+    "https://betnet-mbis.onrender.com",
     
 ]
 
