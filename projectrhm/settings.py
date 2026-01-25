@@ -50,6 +50,7 @@ ALLOWED_HOSTS = [
     "betnet-mbis.onrender.com",
     "localhost",
     "127.0.0.1",
+    "10.63.76.9"
 ]
 
 # Application definition
@@ -99,6 +100,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://yba.onrender.com"
+    
 ]
 
 
@@ -207,7 +209,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 #STATIC_URL = '/static/'
 #STATICFILES_DIRS = [BASE_DIR / "static"]  
