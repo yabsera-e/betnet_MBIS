@@ -52,13 +52,13 @@ BetNet addresses these challenges by providing:
 7. **Error Handling and Validation:** Ensures data integrity and proper user feedback.  
 8. **Payment Simulation Workflow:** Demonstrates safe inquiry and communication processes.  
 
-## Team
+## Demo Accounts
 
-This project was developed by **Master of Business and Information Systems students at AAU**:
+This project was developed by **Master of Business and Information Systems students at AAU and the below demo account is created accordingly**:
 
-- **Yabsera Erdaw** (ID: GSE3679/17) yabadmin@gmail.com betnet123; yabuser@gmail.com 
-- **Natnael Dereje** (ID: GSE/2218/17) natid@gmail.com betnet123 
-- **Yeabsira Tadesse** (ID: GSE/5631/17) yeabd@gmail.com betnet123 
+yabadmin@gmail.com betnet123; yabuser@gmail.com betnet123;
+natid@gmail.com betnet123;
+yeabd@gmail.com betnet123 
 
 ## Live Preview
 
