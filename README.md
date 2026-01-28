@@ -52,13 +52,12 @@ BetNet addresses these challenges by providing:
 7. **Error Handling and Validation:** Ensures data integrity and proper user feedback.  
 8. **Payment Simulation Workflow:** Demonstrates safe inquiry and communication processes.  
 
-## Demo Accounts
+## Test Accounts / Login Credentials
 
-This project was developed by **Master of Business and Information Systems students at AAU and the below demo account is created accordingly**:
-
-- ** yabadmin@gmail.com betnet123**       - ** yabuser@gmail.com betnet123**
-- ** natid@gmail.com betnet123**
-- ** yeabd@gmail.com betnet123**
+- **Admin:** yabadmin@gmail.com | Password: betnet123  
+- **User 1:** yabuser@gmail.com | Password: betnet123  
+- **User 2:** natid@gmail.com | Password: betnet123  
+- **User 3:** yeabd@gmail.com | Password: betnet123
 
 ## Live Preview
 
