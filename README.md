@@ -1,4 +1,22 @@
-# BetNet – Rental House Marketplace Simulation
+
+# Addis Ababa University  
+## School of Commerce - MBIS  
+### Digital Business and Technology E-Commerce Implementation  
+**Project:** E-commerce Based Rental House Marketplace (BetNet)
+
+**Team Members:**  
+- **Yabsera Erdaw** (ID: GSE3679/17)  
+- **Natnael Dereje** (ID: GSE/2218/17)  
+- **Yeabsira Tadesse** (ID: GSE/5631/17)  
+
+**Submitted to:** Dr. Minale Ashagrie  
+**Date:** 25-Jan-2026
+
+# BetNet – Rental House Marketplace
+
+## Live Preview
+
+🔗 [https://betnet-mbis.onrender.com]
 
 ## Project Description
 
