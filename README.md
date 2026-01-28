@@ -56,9 +56,9 @@ BetNet addresses these challenges by providing:
 
 This project was developed by **Master of Business and Information Systems students at AAU and the below demo account is created accordingly**:
 
-yabadmin@gmail.com betnet123; yabuser@gmail.com betnet123;
-natid@gmail.com betnet123;
-yeabd@gmail.com betnet123 
+- ** yabadmin@gmail.com betnet123**       - ** yabuser@gmail.com betnet123**
+- ** natid@gmail.com betnet123**
+- ** yeabd@gmail.com betnet123**
 
 ## Live Preview
 
